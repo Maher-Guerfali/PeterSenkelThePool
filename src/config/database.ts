@@ -1,12 +1,5 @@
 import mongoose from 'mongoose';
 
-// Connection options to handle common edge cases
-const connectionOptions = {
-  // Useful for debugging connection issues
-  autoIndex: true,
-  serverSelectionTimeoutMS: 5000,
-};
-
 export const connectDatabase = async (): Promise<void> => {
   try {
     const mongoUri = process.env.MONGODB_URI;
@@ -16,7 +9,7 @@ export const connectDatabase = async (): Promise<void> => {
     }
 
     // Mongoose will handle reconnection automatically if connection drops
-    const connection = await mongoose.connect(mongoUri, connectionOptions);
+    const connection = await mongoose.connect(mongoUri);
     
     console.log(`✓ MongoDB connected: ${connection.connection.host}`);
     
