@@ -11,11 +11,15 @@ const options: swaggerJsdoc.Options = {
         name: 'API Support',
       },
     },
-    // Use a relative server so Swagger "Try it out" uses the current host
+    // Provide both local and current-host servers for dropdown selection
     servers: [
       {
         url: '/',
-        description: 'Current host',
+        description: 'Current host (Render or local)'
+      },
+      {
+        url: 'http://localhost:3000',
+        description: 'Local development'
       }
     ],
     components: {
