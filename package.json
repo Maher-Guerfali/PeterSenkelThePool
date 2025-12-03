@@ -19,6 +19,9 @@
   ],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=18.x"
+  },
   "dependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

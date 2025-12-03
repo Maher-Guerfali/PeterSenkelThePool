@@ -47,6 +47,11 @@ app.get('/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Convenience: redirect root to API docs in hosted envs
+app.get('/', (_req, res) => {
+  res.redirect('/api-docs');
+});
+
 // API routes
 app.use('/api/products', productRoutes);
 
