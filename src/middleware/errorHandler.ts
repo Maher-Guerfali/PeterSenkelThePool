@@ -1,7 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { ErrorResponse } from '../types/error.types';
 
-// Centralized error handler - catches all errors and formats them consistently
+/**
+ * Centralized error handler | Zentralisierter Fehlerhandler
+ * 
+ * EN: Catches all errors from controllers and middleware, formats them consistently.
+ *     Returns standardized error response with message and status code.
+ *     Logs 500-level errors for debugging without exposing internal details.
+ * 
+ * DE: Fängt alle Fehler von Controllern und Middleware ab, formatiert sie einheitlich.
+ *     Gibt standardisierte Fehlerantwort mit Nachricht und Statuscode zurück.
+ *     Protokolliert 500-Level-Fehler zum Debuggen ohne interne Details preiszugeben.
+ */
 export const errorHandler = (
   err: Error & { status?: number },
   _req: Request,
@@ -22,7 +32,12 @@ export const errorHandler = (
   });
 };
 
-// Handle 404 for undefined routes
+/**
+ * Handle 404 for undefined routes | 404-Handler für undefinierte Routen
+ * 
+ * EN: Catches requests to non-existent endpoints and returns 404 error.
+ * DE: Fängt Anfragen an nicht existierende Endpunkte ab und gibt 404-Fehler zurück.
+ */
 export const notFoundHandler = (
   req: Request,
   res: Response<ErrorResponse>

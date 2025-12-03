@@ -2,8 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../types/error.types';
 import { ProductInput } from '../types/product.types';
 
-// Validate product creation/update data
-// Could use a library like Joi, but keeping it simple for this project
+/**
+ * Validate product input data | Produkteingabedaten validieren
+ * 
+ * EN: Validates product creation (POST) and update (PATCH) requests.
+ *     For PATCH: filters out empty strings and zero values before validation.
+ *     Checks name (1-200 chars), price (> 0), category (1-100 chars).
+ *     At least one field required for PATCH requests.
+ * 
+ * DE: Validiert Produkterstellung (POST) und Aktualisierung (PATCH) Anfragen.
+ *     Für PATCH: Filtert leere Strings und Nullwerte vor der Validierung heraus.
+ *     Prüft Name (1-200 Zeichen), Preis (> 0), Kategorie (1-100 Zeichen).
+ *     Mindestens ein Feld erforderlich für PATCH-Anfragen.
+ * 
+ * @throws {ApiError} 400 - If validation fails
+ */
 export const validateProductInput = (
   req: Request,
   _res: Response,
@@ -67,7 +80,17 @@ export const validateProductInput = (
   next();
 };
 
-// Validate MongoDB ObjectId format
+/**
+ * Validate MongoDB ObjectId format | MongoDB ObjectId-Format validieren
+ * 
+ * EN: Checks if the product ID parameter is a valid 24-character hexadecimal string.
+ *     Prevents invalid ID formats from reaching the database layer.
+ * 
+ * DE: Prüft, ob der Produkt-ID-Parameter eine gültige 24-stellige Hexadezimalzeichenfolge ist.
+ *     Verhindert, dass ungültige ID-Formate die Datenbankebene erreichen.
+ * 
+ * @throws {ApiError} 400 - If ID format is invalid
+ */
 export const validateObjectId = (
   req: Request,
   _res: Response,

@@ -1,12 +1,32 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { ProductInput } from '../types/product.types';
 
-// Extend mongoose Document to get all the built-in methods
+/**
+ * Product Interface | Produkt-Interface
+ * 
+ * EN: Extends the base ProductInput with MongoDB Document methods and timestamps.
+ * DE: Erweitert das Basis-ProductInput mit MongoDB-Document-Methoden und Zeitstempeln.
+ */
 export interface IProduct extends ProductInput, Document {
   createdAt: Date;
   updatedAt: Date;
 }
 
+/**
+ * Product Schema | Produkt-Schema
+ * 
+ * EN: MongoDB schema defining product structure with validation rules:
+ *     - name: 1-200 characters, required, trimmed
+ *     - price: positive number, required, validated
+ *     - category: 1-100 characters, required, trimmed
+ *     Includes indexes for performance optimization.
+ * 
+ * DE: MongoDB-Schema, das die Produktstruktur mit Validierungsregeln definiert:
+ *     - name: 1-200 Zeichen, erforderlich, getrimmt
+ *     - price: positive Zahl, erforderlich, validiert
+ *     - category: 1-100 Zeichen, erforderlich, getrimmt
+ *     Enthält Indizes zur Leistungsoptimierung.
+ */
 const ProductSchema = new Schema<IProduct>(
   {
     name: {

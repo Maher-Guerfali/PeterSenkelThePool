@@ -3,7 +3,19 @@ import Product from '../models/Product';
 import { ApiError } from '../types/error.types';
 import { ProductInput, ProductQueryParams, PaginatedResponse, ProductDocument } from '../types/product.types';
 
-// Create a new product
+/**
+ * Create a new product | Neues Produkt erstellen
+ * 
+ * EN: Creates a new product in the database with name, price, and category.
+ *     Trims whitespace from text fields and validates all inputs.
+ * 
+ * DE: Erstellt ein neues Produkt in der Datenbank mit Name, Preis und Kategorie.
+ *     Entfernt Leerzeichen aus Textfeldern und validiert alle Eingaben.
+ * 
+ * @param req - Request with ProductInput in body
+ * @param res - Response with created product (201)
+ * @param next - Error handler
+ */
 export const createProduct = async (
   req: Request<{}, {}, ProductInput>,
   res: Response,
@@ -24,7 +36,21 @@ export const createProduct = async (
   }
 };
 
-// Get all products with optional filtering and pagination
+/**
+ * Get all products with filtering and pagination | Alle Produkte mit Filterung und Paginierung abrufen
+ * 
+ * EN: Retrieves products with optional filters (category, price range) and pagination.
+ *     Supports query params: page, limit, category, minPrice, maxPrice.
+ *     Automatically clamps page number to valid range [1, totalPages].
+ * 
+ * DE: Ruft Produkte mit optionalen Filtern (Kategorie, Preisspanne) und Paginierung ab.
+ *     Unterstützt Query-Parameter: page, limit, category, minPrice, maxPrice.
+ *     Begrenzt automatisch die Seitenzahl auf den gültigen Bereich [1, Gesamtseiten].
+ * 
+ * @param req - Request with ProductQueryParams
+ * @param res - Response with PaginatedResponse<ProductDocument>
+ * @param next - Error handler
+ */
 export const getProducts = async (
   req: Request<{}, {}, {}, ProductQueryParams>,
   res: Response<PaginatedResponse<ProductDocument>>,
@@ -91,7 +117,19 @@ export const getProducts = async (
   }
 };
 
-// Get single product by ID
+/**
+ * Get single product by ID | Einzelnes Produkt per ID abrufen
+ * 
+ * EN: Retrieves a single product by its MongoDB ObjectId.
+ *     Returns 404 if product not found or ID format is invalid.
+ * 
+ * DE: Ruft ein einzelnes Produkt über seine MongoDB-ObjectId ab.
+ *     Gibt 404 zurück, wenn das Produkt nicht gefunden wird oder das ID-Format ungültig ist.
+ * 
+ * @param req - Request with id parameter
+ * @param res - Response with product document
+ * @param next - Error handler
+ */
 export const getProductById = async (
   req: Request<{ id: string }>,
   res: Response,
@@ -115,7 +153,21 @@ export const getProductById = async (
   }
 };
 
-// Update product fields
+/**
+ * Update product fields (partial update) | Produktfelder aktualisieren (Teilaktualisierung)
+ * 
+ * EN: Updates one or more fields of an existing product.
+ *     Only provided fields are updated. Empty strings and zero values are filtered out.
+ *     Runs schema validation on updates and returns the updated document.
+ * 
+ * DE: Aktualisiert ein oder mehrere Felder eines bestehenden Produkts.
+ *     Nur bereitgestellte Felder werden aktualisiert. Leere Strings und Nullwerte werden herausgefiltert.
+ *     Führt Schema-Validierung bei Aktualisierungen durch und gibt das aktualisierte Dokument zurück.
+ * 
+ * @param req - Request with id parameter and Partial<ProductInput> in body
+ * @param res - Response with updated product
+ * @param next - Error handler
+ */
 export const updateProduct = async (
   req: Request<{ id: string }, {}, Partial<ProductInput>>,
   res: Response,
@@ -158,7 +210,19 @@ export const updateProduct = async (
   }
 };
 
-// Delete product
+/**
+ * Delete product | Produkt löschen
+ * 
+ * EN: Deletes a product from the database by its ID.
+ *     Returns 204 (No Content) on success, 404 if product not found.
+ * 
+ * DE: Löscht ein Produkt aus der Datenbank anhand seiner ID.
+ *     Gibt 204 (Kein Inhalt) bei Erfolg zurück, 404 wenn das Produkt nicht gefunden wurde.
+ * 
+ * @param req - Request with id parameter
+ * @param res - Empty response (204)
+ * @param next - Error handler
+ */
 export const deleteProduct = async (
   req: Request<{ id: string }>,
   res: Response,
