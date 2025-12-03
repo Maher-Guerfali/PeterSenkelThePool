@@ -1,7 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
-import mongoSanitize from 'express-mongo-sanitize';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { connectDatabase } from './config/database';
@@ -13,12 +12,6 @@ dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
-
-// Security: Prevent NoSQL injection attacks
-// In test mode, skip sanitization to avoid supertest compatibility issues
-if (process.env.NODE_ENV !== 'test') {
-  app.use(mongoSanitize());
-}
 
 // CORS - allow requests from any origin (fine for a test API)
 app.use(cors());
