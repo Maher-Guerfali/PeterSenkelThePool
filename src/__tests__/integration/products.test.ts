@@ -45,6 +45,35 @@ describe('Product API Integration Tests', () => {
       expect(response.body).toHaveProperty('updatedAt');
     });
 
+    it('should handle special characters and accents in product names', async () => {
+      const response = await request(app)
+        .post('/api/products')
+        .send({
+          name: 'Café Möbel & Co. - 100% Organic!',
+          price: 45.99,
+          category: 'Food & Beverages'
+        })
+        .expect(201);
+
+      expect(response.body.name).toBe('Café Möbel & Co. - 100% Organic!');
+      expect(response.body.category).toBe('Food & Beverages');
+    });
+
+    it('should reject product name exceeding 200 characters', async () => {
+      const longName = 'A'.repeat(201);
+      
+      const response = await request(app)
+        .post('/api/products')
+        .send({
+          name: longName,
+          price: 100,
+          category: 'Test'
+        })
+        .expect(400);
+
+      expect(response.body.message).toContain('200 characters');
+    });
+
     it('should trim whitespace from name and category', async () => {
       const response = await request(app)
         .post('/api/products')
@@ -232,6 +261,42 @@ describe('Product API Integration Tests', () => {
         .expect(400);
 
       expect(response.body.message).toContain('valid positive number');
+    });
+
+    it('should clamp page to valid range when requesting beyond last page', async () => {
+      const response = await request(app)
+        .get('/api/products?page=999&limit=2')
+        .expect(200);
+
+      expect(response.body.page).toBe(3); // Last valid page
+      expect(response.body.data.length).toBeGreaterThan(0);
+    });
+
+    it('should handle negative page numbers by defaulting to page 1', async () => {
+      const response = await request(app)
+        .get('/api/products?page=-5&limit=2')
+        .expect(200);
+
+      expect(response.body.page).toBe(1);
+      expect(response.body.data).toHaveLength(2);
+    });
+
+    it('should handle excessive limit by capping to reasonable maximum', async () => {
+      const response = await request(app)
+        .get('/api/products?limit=99999')
+        .expect(200);
+
+      expect(response.body.data).toHaveLength(5); // All products
+      expect(response.body.page).toBe(1);
+    });
+
+    it('should return empty results when category has no matches', async () => {
+      const response = await request(app)
+        .get('/api/products?category=NonExistentCategory')
+        .expect(200);
+
+      expect(response.body.data).toHaveLength(0);
+      expect(response.body.total).toBe(0);
     });
   });
 
