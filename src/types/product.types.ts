@@ -1,6 +1,3 @@
-// Type definitions for Product-related operations
-// Keeping these separate makes the codebase easier to maintain
-
 export interface ProductInput {
   name: string;
   price: number;
@@ -13,7 +10,6 @@ export interface ProductDocument extends ProductInput {
   updatedAt: Date;
 }
 
-// Query params for filtering and pagination
 export interface ProductQueryParams {
   page?: string;
   limit?: string;
@@ -22,7 +18,6 @@ export interface ProductQueryParams {
   maxPrice?: string;
 }
 
-// Response format for paginated results
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;

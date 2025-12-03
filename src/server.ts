@@ -15,7 +15,6 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
-// CORS - allow requests from any origin (fine for a test API)
 app.use(cors());
 
 // Request logging - 'dev' format is concise and readable

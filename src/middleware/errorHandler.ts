@@ -21,7 +21,6 @@ export const errorHandler = (
   const status = err.status || 500;
   const message = err.message || 'Internal server error';
 
-  // Log errors for debugging, but don't expose internal details to client
   if (status === 500) {
     console.error('Server error:', err);
   }

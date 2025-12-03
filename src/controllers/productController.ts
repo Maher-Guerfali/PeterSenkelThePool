@@ -57,7 +57,6 @@ export const getProducts = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // Parse query parameters with sensible defaults
     const requestedPage = Math.max(1, parseInt(req.query.page || '1'));
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit || '10')));
 
@@ -68,7 +67,6 @@ export const getProducts = async (
       filter.category = req.query.category.trim();
     }
 
-    // Price range filtering
     if (req.query.minPrice || req.query.maxPrice) {
       const priceFilter: { $gte?: number; $lte?: number } = {};
       

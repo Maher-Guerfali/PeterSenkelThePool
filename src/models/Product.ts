@@ -57,14 +57,11 @@ const ProductSchema = new Schema<IProduct>(
     }
   },
   {
-    // Mongoose handles createdAt and updatedAt automatically
     timestamps: true,
-    // Remove __v field from responses, makes the JSON cleaner
     versionKey: false
   }
 );
 
-// Index for better query performance on common searches
 ProductSchema.index({ category: 1, price: 1 });
 ProductSchema.index({ createdAt: -1 });
 
