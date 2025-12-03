@@ -9,6 +9,14 @@ export const validateProductInput = (
   _res: Response,
   next: NextFunction
 ): void => {
+  // For PATCH: filter out empty strings and 0 values so they're treated as "not provided"
+  if (req.method === 'PATCH') {
+    const body = req.body as Partial<ProductInput>;
+    if (body.name === '') delete req.body.name;
+    if (body.category === '') delete req.body.category;
+    if (body.price === 0) delete req.body.price;
+  }
+
   const { name, price, category } = req.body as Partial<ProductInput>;
 
   const errors: string[] = [];
@@ -47,9 +55,9 @@ export const validateProductInput = (
     errors.push('Category is required');
   }
 
-  // For PATCH requests, at least one field should be provided
-  if (req.method === 'PATCH' && !name && !price && !category) {
-    errors.push('At least one field (name, price, or category) must be provided');
+  // For PATCH requests, at least one valid field should be provided after filtering
+  if (req.method === 'PATCH' && name === undefined && price === undefined && category === undefined) {
+    errors.push('At least one field (name, price, or category) must be provided with a valid value');
   }
 
   if (errors.length > 0) {
