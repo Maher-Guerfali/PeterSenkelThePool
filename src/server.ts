@@ -3,6 +3,8 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
 import { connectDatabase } from './config/database';
 import productRoutes from './routes/productRoutes';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
@@ -33,6 +35,12 @@ const limiter = rateLimit({
 });
 
 app.use('/api/', limiter);
+
+// Swagger API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Products API Documentation'
+}));
 
 // Health check endpoint
 app.get('/health', (_req, res) => {
