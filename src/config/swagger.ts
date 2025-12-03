@@ -11,15 +11,12 @@ const options: swaggerJsdoc.Options = {
         name: 'API Support',
       },
     },
+    // Use a relative server so Swagger "Try it out" uses the current host
     servers: [
       {
-        url: 'http://localhost:3000',
-        description: 'Development server',
-      },
-      {
-        url: 'https://your-app.onrender.com',
-        description: 'Production server',
-      },
+        url: '/',
+        description: 'Current host',
+      }
     ],
     components: {
       schemas: {
