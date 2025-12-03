@@ -1,0 +1,76 @@
+{
+  "info": {
+    "name": "Products API (The Pool)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+    },
+    {
+      "name": "DB Health",
+      "request": { "method": "GET", "url": "{{baseUrl}}/health/db" }
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json"}],
+        "url": "{{baseUrl}}/api/products",
+        "body": { "mode": "raw",
+          "raw": "{\n  \"name\": \"San Marzano Tomatoes DOP\",\n  \"price\": 12.99,\n  \"category\": \"Pantry Staples\"\n}"
+        }
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.environment.set('productId', pm.response.json()._id);"
+      ]}}]
+    },
+    {
+      "name": "List Products",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/products?page=1&limit=10"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "const r = pm.response.json();",
+        "if (r.data && r.data.length) pm.environment.set('productId', r.data[0]._id);"
+      ]}}]
+    },
+    {
+      "name": "Filter by Category",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/products?category=Pantry%20Staples"
+      }
+    },
+    {
+      "name": "Filter by Price Range",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/products?minPrice=10&maxPrice=100"
+      }
+    },
+    {
+      "name": "Get Product by ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products/{{productId}}" }
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PATCH",
+        "header": [{ "key": "Content-Type", "value": "application/json"}],
+        "url": "{{baseUrl}}/api/products/{{productId}}",
+        "body": { "mode": "raw", "raw": "{ \"price\": 14.99 }" }
+      }
+    },
+    {
+      "name": "Delete Product",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/products/{{productId}}" }
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "https://petersenkelthepool.onrender.com" },
+    { "key": "productId", "value": "" }
+  ]
+}

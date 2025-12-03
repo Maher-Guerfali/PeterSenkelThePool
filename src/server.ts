@@ -52,6 +52,20 @@ app.get('/', (_req, res) => {
   res.redirect('/api-docs');
 });
 
+// Database health: reports MongoDB connection state
+app.get('/health/db', (_req, res) => {
+  // 0: disconnected, 1: connected, 2: connecting, 3: disconnecting
+  const state = require('mongoose').connection.readyState as 0|1|2|3;
+  const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const started = Date.now();
+  require('mongoose').connection.db?.admin()?.ping().then(() => {
+    const latencyMs = Date.now() - started;
+    res.json({ status: states[state], latencyMs });
+  }).catch(() => {
+    res.status(500).json({ status: states[state], message: 'db ping failed' });
+  });
+});
+
 // API routes
 app.use('/api/products', productRoutes);
 

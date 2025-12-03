@@ -262,11 +262,6 @@ Updates one or more fields of an existing product.
 Deletes a product by its ID.
 
 **Example:**
-```bash
-DELETE /products/674f1234567890abcdef1234
-```
-
-**Response (204):**
 No content returned on successful deletion.
 
 **Error Response (404):**
@@ -286,6 +281,10 @@ Returns the API health status.
 
 **Response (200):**
 ```json
+**Pagination behavior:**
+- If `page` < 1, it is treated as `1`.
+- If `page` > `pages`, the API clamps to the last page and returns an empty page only when `total = 0`; otherwise it returns the last available page.
+- `limit` is capped at `100` to prevent abuse.
 {
   "status": "ok",
   "timestamp": "2025-12-03T12:00:00.000Z"

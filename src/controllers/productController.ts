@@ -32,9 +32,8 @@ export const getProducts = async (
 ): Promise<void> => {
   try {
     // Parse query parameters with sensible defaults
-    const page = Math.max(1, parseInt(req.query.page || '1'));
+    const requestedPage = Math.max(1, parseInt(req.query.page || '1'));
     const limit = Math.min(100, Math.max(1, parseInt(req.query.limit || '10')));
-    const skip = (page - 1) * limit;
 
     // Build filter object based on query params
     const filter: Record<string, unknown> = {};
@@ -67,16 +66,16 @@ export const getProducts = async (
     }
 
     // Run query and count in parallel for better performance
-    const [products, total] = await Promise.all([
-      Product.find(filter)
-        .sort({ createdAt: -1 }) // newest first
-        .skip(skip)
-        .limit(limit)
-        .lean(), // lean() returns plain objects instead of Mongoose documents - faster
-      Product.countDocuments(filter)
-    ]);
+    const total = await Product.countDocuments(filter);
+    const pages = Math.max(1, Math.ceil(total / limit));
+    const page = Math.min(requestedPage, pages);
+    const skip = (page - 1) * limit;
 
-    const pages = Math.ceil(total / limit);
+    const products = await Product.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
 
     res.json({
       data: products.map(p => ({
