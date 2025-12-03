@@ -2,6 +2,8 @@
 
 A RESTful API for managing food and beverage products with search, pagination, and validation capabilities. Built with Node.js, Express, TypeScript, and MongoDB for modern food service and restaurant supply chains.
 
+![API Demo](https://i.ibb.co/p6PZRrKK/Screenshot-2025-12-03-at-20-20-57.png)
+
 ## Features
 
 - ✅ Full CRUD operations for products
