@@ -22,11 +22,11 @@ export const validateProductInput = (
   _res: Response,
   next: NextFunction
 ): void => {
-  // For PATCH: filter out empty strings and 0 values so they're treated as "not provided"
+  // For PATCH: filter out empty strings, placeholder values, and 0 so they're treated as "not provided"
   if (req.method === 'PATCH') {
     const body = req.body as Partial<ProductInput>;
-    if (body.name === '') delete req.body.name;
-    if (body.category === '') delete req.body.category;
+    if (body.name === '' || body.name === 'string') delete req.body.name;
+    if (body.category === '' || body.category === 'string') delete req.body.category;
     if (body.price === 0) delete req.body.price;
   }
 
