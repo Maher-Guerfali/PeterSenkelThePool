@@ -1,6 +1,6 @@
 # Products API
 
-A RESTful API for managing products with search, pagination, and validation capabilities. Built with Node.js, Express, TypeScript, and MongoDB.
+A RESTful API for managing food and beverage products with search, pagination, and validation capabilities. Built with Node.js, Express, TypeScript, and MongoDB for modern food service and restaurant supply chains.
 
 ## Features
 
@@ -100,9 +100,9 @@ Creates a new product.
 **Request Body:**
 ```json
 {
-  "name": "Laptop",
-  "price": 999.99,
-  "category": "Electronics"
+  "name": "Organic Truffle Oil",
+  "price": 45.99,
+  "category": "Oils & Vinegars"
 }
 ```
 
@@ -154,13 +154,13 @@ GET /products
 GET /products?page=2&limit=20
 
 # Filter by category
-GET /products?category=Electronics
+GET /products?category=Oils%20%26%20Vinegars
 
 # Filter by price range
-GET /products?minPrice=100&maxPrice=500
+GET /products?minPrice=20&maxPrice=100
 
 # Combine filters
-GET /products?category=Electronics&minPrice=500&maxPrice=2000&page=1&limit=10
+GET /products?category=Wines%20%26%20Spirits&minPrice=30&maxPrice=200&page=1&limit=10
 ```
 
 **Response (200):**
@@ -169,9 +169,9 @@ GET /products?category=Electronics&minPrice=500&maxPrice=2000&page=1&limit=10
   "data": [
     {
       "_id": "674f1234567890abcdef1234",
-      "name": "Laptop",
-      "price": 999.99,
-      "category": "Electronics",
+      "name": "Organic Truffle Oil",
+      "price": 45.99,
+      "category": "Oils & Vinegars",
       "createdAt": "2025-12-03T10:30:00.000Z",
       "updatedAt": "2025-12-03T10:30:00.000Z"
     }
@@ -198,9 +198,9 @@ GET /products/674f1234567890abcdef1234
 ```json
 {
   "_id": "674f1234567890abcdef1234",
-  "name": "Laptop",
-  "price": 999.99,
-  "category": "Electronics",
+  "name": "Organic Truffle Oil",
+  "price": 45.99,
+  "category": "Oils & Vinegars",
   "createdAt": "2025-12-03T10:30:00.000Z",
   "updatedAt": "2025-12-03T10:30:00.000Z"
 }
@@ -232,8 +232,8 @@ Updates one or more fields of an existing product.
 **Request Body (partial):**
 ```json
 {
-  "name": "Gaming Laptop",
-  "price": 1299.99
+  "name": "Premium Truffle Oil",
+  "price": 52.99
 }
 ```
 
@@ -246,9 +246,9 @@ Updates one or more fields of an existing product.
 ```json
 {
   "_id": "674f1234567890abcdef1234",
-  "name": "Gaming Laptop",
-  "price": 1299.99,
-  "category": "Electronics",
+  "name": "Premium Truffle Oil",
+  "price": 52.99,
+  "category": "Oils & Vinegars",
   "createdAt": "2025-12-03T10:30:00.000Z",
   "updatedAt": "2025-12-03T12:45:00.000Z"
 }
